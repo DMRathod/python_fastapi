@@ -4,19 +4,29 @@ from pydantic import BaseModel
 from random import randrange
 from contextlib import asynccontextmanager
 import psycopg2
+from app.routers import posts, users
 from psycopg2.extras import RealDictCursor
 from sqlmodel import SQLModel
+
+from app.database import create_database_and_tables, drop_database_and_tables
 from .model import *
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.db = create_database_and_tables()
+    print(app.state.db)
 
     yield
 
     app.state.db = drop_database_and_tables()
+    print(app.state.db)
 
 app = FastAPI(lifespan=lifespan)
+
+
+app.include_router(posts.router, prefix="/uposts", tags=["Posts"])
+app.include_router(users.router, prefix="/users", tags=["Users"])
+
 
 @app.get("/")
 def root():
@@ -94,35 +104,3 @@ def root():
 #         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} does not exist")
 #     return {"data": updated_post}
 
-# @app.get('/uposts', status_code=status.HTTP_200_OK)
-# def get_list_of_all_post():
-#     posts = select_all_post()
-#     return {"ALL UPosts":posts}
-
-# @app.post('/uposts', status_code=status.HTTP_201_CREATED)
-# def create_post(post: UPosts):
-#     post = insert_data_in_table(post)
-#     return {"Created UPost": post.model_dump()}
-
-# @app.get('/uposts/{id}', status_code=status.HTTP_200_OK)
-# def get_post(id: int, response: Response):
-#     post = get_post_by_id(id)
-#     if not post:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} does not exist in UPosts")
-#     print(list(post))
-#     return {f"Post with ID {id}": post}
-
-# @app.put('/uposts/update/{id}', status_code=status.HTTP_200_OK)
-# def update_post(id: int, upost: UPosts, response: Response):
-#     post = update_post_by_id(id, upost)
-#     if not post:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} does not exist in UPosts")
-#     print(list(post))
-#     return {"Updated Post": post}
-
-# @app.delete('/uposts/delete/{id}', status_code=status.HTTP_200_OK)
-# def delete_post(id: int, response: Response):
-#     post = delete_post_by_id(id)
-#     if not post:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with {id} does not exist in UPosts")
-#     return {"Deleted Post": post}

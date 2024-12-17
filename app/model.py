@@ -16,14 +16,6 @@ class User(SQLModel, table=True):
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
 
 
-def create_database_and_tables():
-    SQLModel.metadata.create_all(engine)
-    return "Database Connected"
-
-def drop_database_and_tables():
-    SQLModel.metadata.drop_all(engine)
-    return "Database Disconnected"
-
 
 
 def insert_data_in_table(post: UPosts):
