@@ -1,12 +1,17 @@
 from fastapi import HTTPException, status
+from pydantic import ValidationError
 from app.database import get_session
 from app.model import Users
 from sqlmodel import select
 
 session = next(get_session())
 
+
 def insert_data_in_users_table(user: Users):
     try:    
+        user_dict = {**user.model_dump()}
+        Users.validate_email_domain(user.email)
+        user.password = Users.password_hash(user.password)
         session.add(user)
         session.commit()        
     except Exception as e:

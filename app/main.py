@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from app.routers import posts, users
 
 
-from app.database import create_database_and_tables, close_connection
+from app.database import create_database_and_tables, close_connection, drop_database_and_tables
 from .model import *
 
 @asynccontextmanager
@@ -13,7 +13,8 @@ async def lifespan(app: FastAPI):
 
     yield
 
-    app.state.db = close_connection()
+    # app.state.db = close_connection()
+    app.state.db = drop_database_and_tables()
     print(app.state.db)
 
 app = FastAPI(lifespan=lifespan)

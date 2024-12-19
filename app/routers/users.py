@@ -37,4 +37,3 @@ def delete_post(id: int, response: Response):
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with {id} does not exist in Users")
     return {"Deleted user": user}
-
