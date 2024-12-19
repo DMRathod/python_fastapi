@@ -1,14 +1,9 @@
-from typing import Optional
-from fastapi import FastAPI, Response, status, HTTPException
-from pydantic import BaseModel
-from random import randrange
+from fastapi import FastAPI
 from contextlib import asynccontextmanager
-import psycopg2
 from app.routers import posts, users
-from psycopg2.extras import RealDictCursor
-from sqlmodel import SQLModel
 
-from app.database import create_database_and_tables, drop_database_and_tables
+
+from app.database import create_database_and_tables, close_connection
 from .model import *
 
 @asynccontextmanager
@@ -18,7 +13,7 @@ async def lifespan(app: FastAPI):
 
     yield
 
-    app.state.db = drop_database_and_tables()
+    app.state.db = close_connection()
     print(app.state.db)
 
 app = FastAPI(lifespan=lifespan)

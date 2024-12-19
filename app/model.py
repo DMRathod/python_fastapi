@@ -9,12 +9,11 @@ class UPosts(SQLModel, table=True):
     content: str
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
 
-class User(SQLModel, table=True):
+class Users(SQLModel, table=True):
     userid: Optional[int] | None = Field(default=None, primary_key=True)
     email: str
     password: str
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
-
 
 
 

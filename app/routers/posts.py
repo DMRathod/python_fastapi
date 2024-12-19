@@ -5,12 +5,12 @@ router = APIRouter()
 
 @router.get('/', status_code=status.HTTP_200_OK)
 def get_list_of_all_post():
-    posts = select_all_post()
+    posts = get_all_post()
     return {"ALL UPosts":posts}
 
 @router.post('/newupost', status_code=status.HTTP_201_CREATED)
 def create_post(post: UPosts):
-    post = insert_data_in_table(post)
+    post = insert_data_in_uposts_table(post)
     return {"Created UPost": post.model_dump()}
 
 @router.get('/{id}', status_code=status.HTTP_200_OK)
