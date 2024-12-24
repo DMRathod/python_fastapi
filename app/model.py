@@ -34,3 +34,15 @@ class Users(SQLModel, table=True):
 
     def verify_password(self, password: str)->bool:
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
+
+class UPostOut(SQLModel):
+    id: int
+    tittle: str
+    content: str
+    create_dtm: datetime.datetime
+
+class UserOut(SQLModel):
+    userid: int
+    email: EmailStr
+    create_dtm: datetime.datetime
+
