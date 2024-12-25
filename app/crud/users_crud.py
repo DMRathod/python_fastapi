@@ -24,13 +24,20 @@ def get_all_user()->Users:
         users = session.exec(select(Users)).all()
         return users
 
-def get_post_by_id(id: int):
+def get_user_by_id(id: int):
         user = session.get(Users, id)
         if user:
             return user
         else:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with {id} not found")        
 
+def get_user_by_email(email: str):
+        user = session.exec(select(Users).where(Users.email == email)).first()
+        if user:
+            return user
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User Not found in the System")        
+        
 def update_user_by_id(id: int, user: Users):
     usertobeupdated = session.exec(select(Users).where(Users.userid == id)).first()
     if usertobeupdated: 
