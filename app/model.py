@@ -55,4 +55,4 @@ class Token(SQLModel):
     token_type: str
 
 class TokenData(SQLModel):
-    id: Optional[int] = None
+    email: Optional[EmailStr] = None

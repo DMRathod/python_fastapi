@@ -2,6 +2,7 @@ from typing import List
 from fastapi import APIRouter, status, HTTPException, Response
 from app.crud.users_crud import *
 from app.model import UserOut
+
 router = APIRouter()
 
 @router.get("/", status_code=status.HTTP_201_CREATED, response_model=List[UserOut])
