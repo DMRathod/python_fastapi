@@ -8,11 +8,10 @@ def insert_data_in_uposts_table(post: UPosts):
     session.add(post)
     session.commit()
     session.refresh(post)
-    session.close()
     return post
 
-def get_all_post():    
-        posts = session.exec(select(UPosts)).all()
+def get_all_post(limit, skip, search):    
+        posts = session.exec(select(UPosts).filter(UPosts.tittle.contains(search)).limit(limit).offset(skip)).all()
         return posts
 
 def get_post_by_id(id: int):

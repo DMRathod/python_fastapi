@@ -24,7 +24,6 @@ def get_user_by_email(email: str, response: Response):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with {email} does not exist in Users")
     return user
 
-
 @router.post('/add', status_code=status.HTTP_201_CREATED, response_model=UserOut)
 def create_user(user: Users)->UserOut:
     try:    
@@ -39,7 +38,6 @@ def update_user(id: int, user: Users, response: Response):
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with {id} does not exist in Users")
     return user
-
 
 @router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=UserOut)
 def delete_user(id: int, response: Response):

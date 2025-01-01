@@ -1,21 +1,19 @@
 import datetime
 import bcrypt
 from pydantic import EmailStr, field_validator
-from typing import Optional
-from sqlmodel import Field, SQLModel, Session, select
+from typing import List, Optional
+from sqlalchemy import ForeignKey
+from sqlmodel import Field, SQLModel, Relationship
 from .database import engine
 
-class UPosts(SQLModel, table=True):
-    id: Optional[int] | None = Field(default= None, primary_key = True)
-    tittle: str
-    content: str
-    create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
 
 class Users(SQLModel, table=True):
     userid: Optional[int] | None = Field(default=None, primary_key=True)
     email: EmailStr = Field(sa_column_kwargs={"unique": True})
     password: str
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
+    posts: list["UPosts"] = Relationship(back_populates="owner")
+
 
     @field_validator("email", mode="before")
     def validate_email_domain(cls, value):
@@ -35,16 +33,26 @@ class Users(SQLModel, table=True):
     def verify_password(self, password: str)->bool:
         return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))
 
-class UPostOut(SQLModel):
-    id: int
+class UPosts(SQLModel, table=True):
+    id: Optional[int] | None = Field(default= None, primary_key = True)
     tittle: str
     content: str
-    create_dtm: datetime.datetime
+    userid: int = Field(foreign_key="users.userid", nullable=False) 
+    create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
+    owner: Optional[Users] = Relationship(back_populates="posts")
 
 class UserOut(SQLModel):
     userid: int
     email: EmailStr
     create_dtm: datetime.datetime
+
+class UPostOut(SQLModel):
+    id: int
+    tittle: str
+    content: str
+    userid: int
+    create_dtm: datetime.datetime
+    owner: Optional[UserOut] 
 
 class UserLogin(SQLModel):
     email: EmailStr
@@ -56,3 +64,4 @@ class Token(SQLModel):
 
 class TokenData(SQLModel):
     email: Optional[EmailStr] = None
+    id: Optional[int] = None

@@ -1,6 +1,7 @@
 from sqlmodel import create_engine, SQLModel, Session
+from .config import settings
 
-POSTGRESS_SQL_DATABASE_URL = "postgresql://postgres:root@localhost/fastapi"
+POSTGRESS_SQL_DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}/{settings.database_name}"
 
 # add echo = true if you like to log create query
 engine = create_engine(POSTGRESS_SQL_DATABASE_URL)

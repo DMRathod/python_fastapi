@@ -4,13 +4,15 @@ from app.model import TokenData
 from fastapi import status, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.crud.users_crud import *
+from .config import settings
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 
 
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 1 
+SECRET_KEY = f"{settings.secret_key}"
+ALGORITHM = f"{settings.algorithm}"
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 
 def create_jwt_token(data: dict):
@@ -24,9 +26,12 @@ def verify_jwt_token(token: str, credentials_exception):
     try:        
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email : str = payload.get("email")
+        id: int = payload.get("userid")
         if email is None:
             raise credentials_exception
-        token_data = TokenData(email=email)
+        if id is None:
+            raise credentials_exception
+        token_data = TokenData(email=email,id=id)
 
     except jwt.InvalidTokenError:
         raise credentials_exception
