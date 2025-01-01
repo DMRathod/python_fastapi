@@ -12,7 +12,7 @@ class Users(SQLModel, table=True):
     email: EmailStr = Field(sa_column_kwargs={"unique": True})
     password: str
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
-    posts: list["UPosts"] = Relationship(back_populates="owner")
+    posts: list["UPosts"] = Relationship(back_populates="owner", sa_relationship_kwargs={"cascade":"all, delete-orphan"})
 
 
     @field_validator("email", mode="before")
@@ -65,3 +65,4 @@ class Token(SQLModel):
 class TokenData(SQLModel):
     email: Optional[EmailStr] = None
     id: Optional[int] = None
+ 
