@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.routers import posts, users, auth
+from app.routers import posts, users, auth, votes
 
 
 from app.database import create_database_and_tables, drop_database_and_tables
@@ -23,6 +23,8 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(posts.router, prefix="/uposts", tags=["Posts"])
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
+app.include_router(votes.router, prefix="/vote", tags=["Votes"])
+
 
 
 @app.get("/")
