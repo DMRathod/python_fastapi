@@ -1,16 +1,21 @@
 from typing import List, Optional
 from fastapi import APIRouter, HTTPException, status, Response, Depends
 from app.crud.posts_crud import *
-from app.model import UPostOut, TokenData
+from app.model import UPostOut, TokenData, UPostswithCount
 from app.oauth2 import get_current_user
 
 router = APIRouter()
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=List[UPostOut],)
+@router.get('/', status_code=status.HTTP_200_OK, response_model=List[UPostOut])
 def get_list_of_post(current_user:TokenData = Depends(get_current_user), limit: int = 5, skip: int = 0, search: Optional[str] = "")->List[UPostOut]:
     posts = get_all_post(limit, skip, search)
     return posts
- 
+
+@router.get('/withcount', status_code=status.HTTP_200_OK, response_model=List[UPostswithCount])
+def get_list_of_post_with_count(current_user:TokenData = Depends(get_current_user), limit: int = 5, skip: int = 0, search: Optional[str] = "")->List[UPostswithCount]:
+    posts = get_all_post_with_count(limit, skip, search)
+    return posts
+  
 @router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut)
 def get_post(id: int, response: Response, current_user:TokenData = Depends(get_current_user)):
     post = get_post_by_id(id)

@@ -81,3 +81,7 @@ class VoteDirection(str,Enum):
 class Vote(SQLModel):
     post_id: int
     dir: VoteDirection
+
+class UPostswithCount(SQLModel):
+    UPosts: UPosts
+    vote: int
