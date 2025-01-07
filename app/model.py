@@ -11,6 +11,7 @@ class Users(SQLModel, table=True):
     userid: Optional[int] | None = Field(default=None, primary_key=True)
     email: EmailStr = Field(sa_column_kwargs={"unique": True})
     password: str
+    # phone: str
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
     posts: list["UPosts"] = Relationship(back_populates="owner", sa_relationship_kwargs={"cascade":"all, delete-orphan"})
     votes: list["Votes"] = Relationship(back_populates="user", sa_relationship_kwargs={"cascade":"all, delete-orphan"})
