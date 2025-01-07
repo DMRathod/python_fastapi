@@ -40,7 +40,7 @@ app.include_router(votes.router, prefix="/vote", tags=["Votes"])
 
 @app.get("/")
 def root():
-    return {"Message": "Welcome to FastAPI APP"}
+    return {"Message": "Welcome to FastAPI APP My First Web heroku APP"}
 
 
 
