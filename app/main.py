@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from app.routers import posts, users, auth, votes
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-
+from config import settings
 from app.database import create_database_and_tables, drop_database_and_tables
 from .model import *
 
@@ -40,11 +40,12 @@ app.include_router(votes.router, prefix="/vote", tags=["Votes"])
 
 @app.get("/")
 def root():
-    return {"Message": "Welcome to FastAPI APP My First Web heroku APP"}
+    return {"Message": "Welcome to FastAPI, My First Web APP"}
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0",port=8800)
+    port = settings.database_port
+    uvicorn.run(app, host="0.0.0.0", port=port)
 
 
 # class Post(BaseModel):
