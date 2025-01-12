@@ -9,6 +9,8 @@ router = APIRouter()
 
 @router.post("/login", status_code=status.HTTP_200_OK, response_model=Token)
 def login(user_credentials: OAuth2PasswordRequestForm = Depends()):
+    print(f"Username: {user_credentials.username}")
+    print(f"Password: {user_credentials.password}")
     user = get_user_by_email(user_credentials.username)
     if not user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail=f"User Not Found")

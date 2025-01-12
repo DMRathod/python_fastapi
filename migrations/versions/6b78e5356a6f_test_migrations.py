@@ -30,7 +30,7 @@ def upgrade() -> None:
     )
     op.create_table('uposts',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('tittle', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('title', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('content', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('userid', sa.Integer(), nullable=False),
     sa.Column('create_dtm', sa.DateTime(), nullable=True),

@@ -7,7 +7,7 @@ from app.crud.users_crud import *
 from .config import settings
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
 
 
 SECRET_KEY = f"{settings.secret_key}"

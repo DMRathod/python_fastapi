@@ -16,7 +16,7 @@ def insert_data_in_users_table(user: Users)->Users:
         session.commit()        
     except Exception as e:
         session.rollback()
-        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail=f"User NOT Created, Please Check Request {str(e.args)}")    
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,detail=f"Failed to Create User : Validation")    
     session.refresh(user)
     return user
 

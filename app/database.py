@@ -4,7 +4,7 @@ from .config import settings
 POSTGRESS_SQL_DATABASE_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}/{settings.database_name1}"
 
 # add echo = true if you like to log create query
-# engine = create_engine(POSTGRESS_SQL_DATABASE_URL, echo = True)
+# engine = create_engine(POSTGRESS_SQL_DATABASE_URL)
 engine = create_engine(f"{settings.database_string}", echo = True)
 
 

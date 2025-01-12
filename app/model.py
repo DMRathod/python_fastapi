@@ -37,7 +37,7 @@ class Users(SQLModel, table=True):
 
 class UPosts(SQLModel, table=True):
     id: Optional[int] | None = Field(default= None, primary_key = True)
-    tittle: str
+    title: str
     content: str
     userid: int = Field(foreign_key="users.userid", nullable=False) 
     create_dtm: Optional[datetime.datetime] = Field(default_factory=datetime.datetime.now)
@@ -49,13 +49,21 @@ class UserOut(SQLModel):
     email: EmailStr
     create_dtm: datetime.datetime
 
+class UserIn(SQLModel):
+    email: EmailStr
+    password: str
+    
 class UPostOut(SQLModel):
     id: int
-    tittle: str
+    title: str
     content: str
     userid: int
     create_dtm: datetime.datetime
     owner: Optional[UserOut] 
+
+class UPostCreate(SQLModel):
+    title: str
+    content: str
 
 class UserLogin(SQLModel):
     email: EmailStr
