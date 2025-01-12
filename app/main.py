@@ -31,10 +31,10 @@ app.add_middleware(
 )
 
 
-app.include_router(posts.router, prefix="/uposts", tags=["Posts"])
-app.include_router(users.router, prefix="/users", tags=["Users"])
-app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-app.include_router(votes.router, prefix="/vote", tags=["Votes"])
+app.include_router(posts.router, prefix="/uposts", tags=["post"])
+app.include_router(users.router, prefix="/users", tags=["user"])
+app.include_router(auth.router, prefix="/auth", tags=["authentication"])
+app.include_router(votes.router, prefix="/vote", tags=["votes"])
 
 
 

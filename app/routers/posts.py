@@ -14,7 +14,7 @@ def get_list_of_post(current_user:TokenData = Depends(get_current_user), limit: 
     posts = get_all_post(limit, skip, search)
     return posts
 
-@router.get('/withcount', status_code=status.HTTP_200_OK, response_model=List[UPostswithCount], responses={
+@router.get('/count', status_code=status.HTTP_200_OK, response_model=List[UPostswithCount], responses={
         404: {"description": "Posts not found"},
         500: {"description": "Internal server error"}
     })
@@ -22,7 +22,7 @@ def get_list_of_post_with_count(current_user:TokenData = Depends(get_current_use
     posts = get_all_post_with_count(limit, skip, search)
     return posts
   
-@router.get('/get/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut, responses={
+@router.get('/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut, responses={
         404: {"description": "Post not found"},
         500: {"description": "Internal server error"}
     })
@@ -34,7 +34,7 @@ def get_post(id: int, response: Response, current_user:TokenData = Depends(get_c
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"User not Authorized to get the post")
     return post
 
-@router.post('/add', status_code=status.HTTP_201_CREATED, response_model=UPostOut, responses={
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=UPostOut, responses={
         500: {"description": "Internal server error"}
     })
 def create_post(post: UPostCreate, current_user:TokenData = Depends(get_current_user)):
@@ -43,7 +43,7 @@ def create_post(post: UPostCreate, current_user:TokenData = Depends(get_current_
     post = insert_data_in_uposts_table(post)
     return post
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut, responses={
+@router.put('/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut, responses={
         404: {"description": "Post not found"},
         500: {"description": "Internal server error"}
     })
@@ -56,7 +56,7 @@ def update_post(id: int, post: UPostCreate, response: Response, current_user:Tok
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"User not Authorized to get the post")
     return post
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut, responses={
+@router.delete('/{id}', status_code=status.HTTP_200_OK, response_model=UPostOut, responses={
         404: {"description": "Post not found"},
         500: {"description": "Internal server error"}
     })

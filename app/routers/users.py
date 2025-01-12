@@ -13,7 +13,7 @@ def get_list_of_users()->List[UserOut]:
     users = get_all_user()
     return users
 
-@router.get('/get/by-id/{id}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
+@router.get('/by-id/{id}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
         404: {"description": "User not found"},
         500: {"description": "Internal server error"}
     })
@@ -23,7 +23,7 @@ def get_user_with_id(id: int, response: Response):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with {id} does not exist in Users")
     return user
 
-@router.get('/get/by-email/{email}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
+@router.get('/by-email/{email}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
         404: {"description": "User not found"},
         500: {"description": "Internal server error"}
     })
@@ -33,7 +33,7 @@ def get_user_with_email(email: str, response: Response):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with {email} does not exist in Users")
     return user
 
-@router.post('/add', status_code=status.HTTP_201_CREATED, response_model=UserOut, responses={
+@router.post('/', status_code=status.HTTP_201_CREATED, response_model=UserOut, responses={
         500: {"description": "Internal server error"}
     })
 def create_user(user: UserIn)->UserOut:
@@ -46,7 +46,7 @@ def create_user(user: UserIn)->UserOut:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=f"Error {str(e.detail)}")
     return user
 
-@router.put('/update/{id}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
+@router.put('/{id}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
         404: {"description": "User not found"},
         500: {"description": "Internal server error"}
     })
@@ -57,7 +57,7 @@ def update_user(id: int, user: UserIn, response: Response):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with {id} does not exist in Users")
     return user
 
-@router.delete('/delete/{id}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
+@router.delete('/{id}', status_code=status.HTTP_200_OK, response_model=UserOut, responses={
         404: {"description": "User not found"},
         500: {"description": "Internal server error"}
     })
