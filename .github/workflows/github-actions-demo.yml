@@ -41,6 +41,7 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           ALGORITHM: ${{ secrets.ALGORITHM }}
           ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
+          DATABASE_STRING: ${{ secrets.DATABASE_STRING }}
         run: |
           pip install pytest
           pip install pytest-cov
