@@ -3,18 +3,20 @@ from fastapi import APIRouter, Depends, status, HTTPException, Response
 from app.crud.votes_crud import *
 from app.model import Vote, TokenData
 from app.oauth2 import get_current_user
+from sqlmodel import Session
+from app.database import get_session
 
 router = APIRouter()
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-def vote(vote: Vote, current_user:TokenData = Depends(get_current_user)):
-    vote_found = is_vote_exist(vote, current_user.id)
+def vote(vote: Vote, current_user:TokenData = Depends(get_current_user), session: Session = Depends(get_session)):
+    vote_found = is_vote_exist(vote, current_user.id, session)
     if(vote.dir.value == "UPVOTE"):
         if vote_found: 
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"User {current_user.id} has Already voted on Post with id {vote.post_id}")
-        return add_vote(vote, current_user.id)
+        return add_vote(vote, current_user.id, session)
     else:
         if not vote_found:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Us~er {current_user.id} has not voted on Post with id {vote.post_id}")
-        return delete_vote(vote, current_user.id)
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User {current_user.id} has not voted on Post with id {vote.post_id}")
+        return delete_vote(vote, current_user.id, session)
 

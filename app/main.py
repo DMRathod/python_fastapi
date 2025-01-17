@@ -18,6 +18,7 @@ async def lifespan(app: FastAPI):
     app.state.db = drop_database_and_tables()
     print(app.state.db)
 
+
 app = FastAPI(lifespan=lifespan)
 
 origins = ["*"]
