@@ -42,5 +42,7 @@ jobs:
           ALGORITHM: ${{ secrets.ALGORITHM }}
           ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
         run: |
+          pip install pytest
+          pip install pytest-cov
           pytest
           pytest --cov=app
