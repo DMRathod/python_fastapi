@@ -4,18 +4,18 @@ from app.routers import posts, users, auth, votes
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from app.config import settings
-from app.database import create_database_and_tables, drop_database_and_tables
+from app.database import create_database_and_tables, drop_database_and_tables, close_connection
 from .model import *
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # app.state.db = drop_database_and_tables()
     app.state.db = create_database_and_tables()
     print(app.state.db)
 
     yield
 
-    # app.state.db = close_connection()
-    app.state.db = drop_database_and_tables()
+    app.state.db = close_connection()    
     print(app.state.db)
 
 
