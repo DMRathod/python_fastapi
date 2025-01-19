@@ -25,6 +25,7 @@ def get_override_session():
 def create_database_and_tables():
     SQLModel.metadata.create_all(bind=engine)
     print("database Created")
+    print("database Created at :", engine.url)
     return "Database Connected"
 
 def close_connection():
