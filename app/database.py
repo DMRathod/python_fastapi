@@ -6,8 +6,8 @@ TEST_POSTGRESS_SQL_DATABASE_URL = f"postgresql://{settings.database_username}:{s
 
 # add echo = true if you like to log create query
 SQL_DATABASE_URL = POSTGRESS_SQL_DATABASE_URL
-engine = create_engine(SQL_DATABASE_URL) #Dev Env
-engine = create_engine(f"{settings.database_string}", echo = True)
+# engine = create_engine(SQL_DATABASE_URL) #Dev Env
+engine = create_engine(f"{settings.database_string}",echo = True)
 
 def set_test_database():
     print("Setting Up test databse")
@@ -23,7 +23,7 @@ def get_override_session():
             session.close()
     
 def create_database_and_tables():
-    SQLModel.metadata.create_all(engine)
+    SQLModel.metadata.create_all(bind=engine)
     print("database Created")
     return "Database Connected"
 
